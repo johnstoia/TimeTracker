@@ -1,0 +1,25 @@
+//Project class file
+import java.io.*;
+
+public class project {
+  String name;
+  String color;
+  static int time = 45;
+
+  public project(String name){ //create a getter and setter for name
+    name = "Projet 1";
+  }
+
+//  public project(int time){ //create a getter and setter for time
+//     time = 45;
+
+    public static void main(String[] args){
+      try{
+           FileWriter fw = new FileWriter("/Users/burak/Desktop/JavaTimerProject/"+name+".txt"); //name needs to be static variable
+           fw.write(""+time); //time needs to be static variable
+           fw.close();
+          }catch(Exception e){System.out.println(e);
+
+     }
+  }
+}
