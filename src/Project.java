@@ -1,46 +1,55 @@
 //Project class file
 import java.io.*;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 
 public class Project {
-  private static String name = "NameHolder";
+  private String name = "NameHolder";
   private String color;
-  private static String previousTime = "00:00:00.00";
-  private static String newTime = "00:00:00.00";
+  private String previousTime = "00:00:00.00";
+  private String newTime = "00:00:00.00";
   private TimeTracker timer = new TimeTracker();
+  private static SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
+  private String date = sdf.format(new Date());
 
+  //Project Constructor
   public Project(String name){
-	  Project.name = name;
+	  this.name = name;
 	  this.color = "Red";
   }
   
-  public static void main(String[] args) throws InterruptedException{
-	  Project test = new Project("Test3");
+  /*public static void main(String[] args) throws InterruptedException, IOException{
+	  Project test = new Project("Test");
 	  test.startTimer();
 	  TimeUnit.SECONDS.sleep(2);
 	  test.stopTimer();
 	  System.out.println("Current newTime: "+newTime);
-	  test.readTime();
 	  test.writeTime();
 	  
 	  test.startTimer();
 	  TimeUnit.SECONDS.sleep(1);
 	  test.stopTimer();
 	  System.out.println("Current newTime: "+newTime);
-	  test.readTime();
 	  test.writeTime();
 	  
 	  
-	  System.out.println("Export String: "+exportString());
-  }
+	  //System.out.println("Export String: "+exportString());
+  }*/
   
   //Starts the timer for this project
   public void startTimer(){
 	  getTimer().startTimer();
   }
   
+  //Pauses the timer, can be resumed by calling startTimer()
   public void pauseTimer(){
 	  getTimer().stopTimer();
   }
@@ -49,12 +58,16 @@ public class Project {
 	  getTimer().stopTimer();
 	  setNewTime(timer.toString());
 	  getTimer().resetTimer();
+	  writeTime();
   }
 
+  //Add's the newTime to the time stored in the dat file already and writes the combo time to the file
+  //If file is empty, writes the current time to the file
     public void writeTime(){
 	  try{
-		  FileWriter fw = new FileWriter(getName()+".dat");
-		  DecimalFormat df2 = new DecimalFormat(".##");
+		  System.out.println("Writing to "+getName()+".dat");
+		  FileWriter fw = new FileWriter(getName()+".dat",true);
+		  /*DecimalFormat df2 = new DecimalFormat(".##");
 		  //Add old time to new time
 		  String[] split1 = getPreviousTime().split(":");
 		  String[] split2 = getNewTime().split(":");
@@ -72,8 +85,8 @@ public class Project {
 			  minutes = (minutes-(60*add2));
 			  hours += add2;
 		  }
-		  
-		  fw.write(hours+":"+minutes+":"+df2.format(seconds));
+		  */
+		  fw.write(date+" "+getNewTime().substring(0,getNewTime().length()-1)+"\n");
 		  fw.close();
 	  }catch(Exception e){
 		  e.printStackTrace();
@@ -81,10 +94,12 @@ public class Project {
 	  }
     }
     
+    //Reads the current time already spent from the dat file
     public void readTime(){
     	try{
     		BufferedReader reader = new BufferedReader(new FileReader(getName()+".dat"));
     		String stime = reader.readLine();
+    		stime = stime.substring(9,stime.length());
     		if(stime != null)
     			setPreviousTime(stime);
     		else
@@ -99,30 +114,49 @@ public class Project {
     	
     }
     
-    public static String exportString(){
-    	String ret = "00:00:00.00";
+    //Exports the time to a string to be formatted and sent to Excel
+    //Resets the dat file
+    public String exportString(){
+    	String ret = "";
     	try{
     		BufferedReader reader = new BufferedReader(new FileReader(getName()+".dat"));
-    		ret = reader.readLine();
+    		String holder;
+    		while((holder = reader.readLine()) != null){
+    			ret = ret+holder+"\n";
+    		}
+    		reader.close();
     	}catch(FileNotFoundException e){
     		e.printStackTrace();
     	}catch(IOException e){
     		e.printStackTrace();
     	}
     	
-    	//reset file
-    	try{
-  		  FileWriter fw = new FileWriter(getName()+".dat");
-  		  fw.write("00:00:00.00");
-  		  fw.close();
+    	/*//delete file java
+     try{
+  		  File del = new File(getName()+".dat");
+  		  del.delete();
+  		  System.out.println("deleted");
   	  }catch(Exception e){
   		  e.printStackTrace();
   	
   	  }
+    	*/
+    	try{
+    	FileWriter fw = new FileWriter(getName()+".dat");
+    	fw.write("");
+    	fw.close();
+    	}catch(FileNotFoundException e){
+    		e.printStackTrace();
+    	}catch(IOException e){
+    		e.printStackTrace();
+    	}
     	return ret;
     }
 
-	public static String getName() {
+    /*
+     * Setters and Getters for all private values
+     */
+	public String getName() {
 		return name;
 	}
 
@@ -138,7 +172,7 @@ public class Project {
 		this.color = color;
 	}
 
-	public static String getPreviousTime() {
+	public String getPreviousTime() {
 		return previousTime;
 	}
 
@@ -154,11 +188,11 @@ public class Project {
 		this.timer = timer;
 	}
 
-	public static String getNewTime() {
+	public String getNewTime() {
 		return newTime;
 	}
 
-	public static void setNewTime(String newTime) {
-		Project.newTime = newTime;
+	public void setNewTime(String newTime) {
+		this.newTime = newTime;
 	}
 }
