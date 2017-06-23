@@ -3,7 +3,7 @@ import org.apache.commons.lang3.time.StopWatch;
 
 public class TimeTracker {
 	private long startTime = System.nanoTime();
-	private static StopWatch stopwatch = new StopWatch();
+	private StopWatch stopwatch = new StopWatch();
 	
 	/*public static void main(String[] args) throws InterruptedException{
 		long totalTime = 0;
@@ -30,17 +30,17 @@ public class TimeTracker {
 	}*/
 	
 	//Starts the timer
-	public static void startTimer(){
+	public void startTimer(){
 		getStopwatch().start();
 	}
 	
 	//Stops the timer, stores the total time, resets it
-	public static void stopTimer(){
+	public void stopTimer(){
 		getStopwatch().stop();
 	}
 	
 	//Resets the stopwatch
-	public static void resetTimer(){
+	public void resetTimer(){
 		getStopwatch().reset();
 	}
 
@@ -55,7 +55,7 @@ public class TimeTracker {
 	}
 
 	//StopWatch getter
-	public static StopWatch getStopwatch() {
+	public StopWatch getStopwatch() {
 		return stopwatch;
 	}
 	
