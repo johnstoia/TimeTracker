@@ -121,16 +121,12 @@ public class Controller {
 		}
 		try {
 			File test = new File("Timesheet.csv");
-			int i = 0;
+			int i = 1;
 			while(test.exists()){
-				test= new File("Timesheet"+i+".csv");
+				test= new File("Timesheet("+i+").csv");
 				i++;
 			}
-			FileWriter fw;
-			if(i != 0)
-				fw = new FileWriter("Timesheet("+i+").csv");
-			else
-				fw = new FileWriter("Timesheet.csv");
+			FileWriter fw = new FileWriter(test);
 			fw.write(CSV);
 			fw.close();
 		} catch (IOException e) {
