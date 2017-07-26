@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="68.0" layoutY="56.0" prefHeight="444.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="56.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ListView fx:id="projectList" onMouseClicked="#listClicked" prefHeight="442.0" prefWidth="175.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane>
+               <children>
+                  <SplitPane id="details" fx:id="details" dividerPositions="0.3165322580645161" layoutX="114.0" layoutY="149.0" orientation="VERTICAL" prefHeight="498.0" prefWidth="417.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <TableView id="table" fx:id="table" layoutX="98.0" layoutY="-23.0" prefHeight="136.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                                 <columns>
+                                    <TableColumn fx:id="dateColumn" prefWidth="196.39996337890625" text="Date" />
+                                    <TableColumn fx:id="timeColumn" prefWidth="217.60003662109375" text="Time" />
+                                 </columns></TableView>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <VBox alignment="CENTER" layoutX="163.0" layoutY="130.0" prefHeight="298.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label fx:id="timeLabel" text="Waiting.">
+                                       <font>
+                                          <Font size="26.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox fx:id="timerButtons" alignment="CENTER" prefHeight="25.0" prefWidth="193.0">
+                                       <children>
+                                          <Button fx:id="startTimer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#startTimer" text="Start" />
+                                          <Button fx:id="pauseTimer" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#pauseTimer" text="Pause" />
+                                          <Button fx:id="resumeTimer" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#resumeTimer" text="Resume" />
+                                          <Button fx:id="stopTimer" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#stopTimer" text="Stop" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <Text fx:id="logo" layoutX="33.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TimeTracker">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <HBox fx:id="topButtons" layoutX="394.0" layoutY="13.0" spacing="5.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="13.0">
+         <children>
+            <Button fx:id="newProject" mnemonicParsing="false" onAction="#NewProjectPressed" text="New Project" />
+            <Button fx:id="deleteProject" mnemonicParsing="false" onAction="#DeleteProjectPressed" text="Delete Project" />
+            <Button fx:id="export" layoutX="97.0" layoutY="12.0" mnemonicParsing="false" onAction="#exportPressed" text="Export" />
+         </children>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+      </HBox>
+      <Label fx:id="messageBar" layoutX="143.0" layoutY="19.0" prefHeight="17.0" prefWidth="193.0" />
+   </children>
+</AnchorPane>
